@@ -117,9 +117,15 @@
             document.getElementById('compressStatus').innerText = "壓縮中 (Python 運算較慢，請稍候)...";
 
             setTimeout(() => {
+                const startTime = performance.now();
+
                 const compressedBytes = window.py_compress(inputBytes);
+
+                const endTime = performance.now();
+                const timeTaken = (endTime - startTime).toFixed(2);
+
                 document.getElementById('compressStatus').innerText = 
-                    `壓縮成功！原始大小: ${inputBytes.length} bytes -> 壓縮後: ${compressedBytes.length} bytes`;
+                    `壓縮成功！原始大小: ${inputBytes.length} bytes -> 壓縮後: ${compressedBytes.length} bytes，耗時: ${timeTaken} 毫秒`;
                 downloadFile(compressedBytes, file.name + ".huff");
             }, 50);
         });
@@ -136,8 +142,14 @@
             document.getElementById('decompressStatus').innerText = "解壓縮中...";
 
             setTimeout(() => {
+                const startTime = performance.now();
+
                 const decompressedBytes = window.py_decompress(inputBytes);
-                document.getElementById('decompressStatus').innerText = "解壓縮完成！";
+
+                const endTime = performance.now();
+                const timeTaken = (endTime - startTime).toFixed(2);
+
+                document.getElementById('decompressStatus').innerText = "解壓縮完成！耗時: ${timeTaken} 毫秒";
 
                 let originalName = file.name.endsWith(".huff") 
                     ? file.name.slice(0, -5) 
